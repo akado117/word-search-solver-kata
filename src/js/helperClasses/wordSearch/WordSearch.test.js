@@ -15,5 +15,18 @@ describe('WordSearch Class', () => {
             expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b')).toBe(null);
             expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b\nc,c,c')).toBe(null);
         });
+        it('should return parsed input as an object with a word array and grid', () => {
+            const result = {
+                _wordGrid: [
+                    ['a', 'a', 'a'],
+                    ['b', 'b', 'b'],
+                    ['c', 'c', 'c'],
+                ],
+                _width: 3,
+                _height: 3,
+                _wordArray: ['asd', 'dds', '1337', 'uno', 'no'],
+            };
+            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b\nc,c,c')).toEqual(result);
+        })
     })
 });

@@ -35,10 +35,11 @@ export default class WordSearch {
         let rowLengthDifferentThanHeight = false;
         baseConfig._wordGrid = baseConfig._wordGrid.map((gridString) => {
             const splitRow = gridString.split(',');
-            if (splitRow !== baseConfig._height) rowLengthDifferentThanHeight = true;
+            if (splitRow.length !== baseConfig._height) rowLengthDifferentThanHeight = true;
             return splitRow;
         });
         if (rowLengthDifferentThanHeight) return null;
-
+        baseConfig._width = baseConfig._wordGrid[0].length;
+        return baseConfig
     }
 }
