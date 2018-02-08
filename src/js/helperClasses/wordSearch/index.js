@@ -8,11 +8,10 @@ export default class WordSearch {
 
     static setWordSearchData(dataObjToSet) {
         const { wordGrid, width, height, wordArray } = dataObjToSet;
-        this._wordGrid = wordGrid || [];
-        this._width = width || null;
-        this._height = height || null;
-        this._wordArray = wordArray || [];
-
+        this._wordGrid = typeof wordGrid === 'object' && wordGrid || [];
+        this._width = typeof width === 'number' && width || null;
+        this._height = typeof height === 'number' && height || null;
+        this._wordArray = typeof wordArray === 'object' && wordArray || [];
     }
 
     static parseWordSearchString(searchString) {

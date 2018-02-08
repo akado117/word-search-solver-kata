@@ -5,6 +5,20 @@ describe('WordSearch Class', () => {
         it('should not cause program to crash if invalid data fed in', () => {
             expect(WordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
         });
+        it('should keep internal data defaults if incomplete data fed in', () => {
+            const fakeParsedData = {
+                wordArray: 123,
+                wordGrid: undefined,
+                waidth: ['some', 'body'],
+                heihgt: ['once', 'told', 'me'],
+
+            };
+            WordSearch.setWordSearchData(fakeParsedData);
+            expect(WordSearch._height).toEqual(null);
+            expect(WordSearch._width ).toEqual(null);
+            expect(WordSearch._wordGrid).toEqual([]);
+            expect(WordSearch._wordArray).toEqual([]);
+        });
     });
 
     describe('parseWordSearchString', () => {
