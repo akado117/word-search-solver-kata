@@ -6,7 +6,7 @@ export default class WordSearch {
     _height = null;
     _wordArray = [];
 
-    static setWordSearchData(dataObjToSet) {
+    setWordSearchData(dataObjToSet) {
         const { wordGrid, width, height, wordArray } = dataObjToSet;
         this._wordGrid = typeof wordGrid === 'object' && wordGrid || [];
         this._width = typeof width === 'number' && width || null;

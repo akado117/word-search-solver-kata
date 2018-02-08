@@ -1,9 +1,13 @@
 import WordSearch from '../wordSearch';
 
 describe('WordSearch Class', () => {
+    let newWordSearch;
+    beforeEach(() => {
+        newWordSearch = new WordSearch();
+    });
     describe('setWordSearchData', () => {
         it('should not cause program to crash if invalid data fed in', () => {
-            expect(WordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
+            expect(newWordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
         });
         it('should keep internal data defaults if incomplete data fed in', () => {
             const fakeParsedData = {
@@ -13,12 +17,26 @@ describe('WordSearch Class', () => {
                 heihgt: ['once', 'told', 'me'],
 
             };
-            WordSearch.setWordSearchData(fakeParsedData);
-            expect(WordSearch._height).toEqual(null);
-            expect(WordSearch._width ).toEqual(null);
-            expect(WordSearch._wordGrid).toEqual([]);
-            expect(WordSearch._wordArray).toEqual([]);
+            newWordSearch.setWordSearchData(fakeParsedData);
+            expect(newWordSearch._height).toEqual(null);
+            expect(newWordSearch._width ).toEqual(null);
+            expect(newWordSearch._wordGrid).toEqual([]);
+            expect(newWordSearch._wordArray).toEqual([]);
         });
+        it('should set internal data when types are correct', () => {
+            const fakeParsedData = {
+                wordArray: ['the', 'world'],
+                wordGrid: ['is', 'gonna', 'owe', 'me'],
+                width: 12,
+                height: 12,
+
+            };
+            newWordSearch.setWordSearchData(fakeParsedData);
+            expect(newWordSearch._height).toEqual(12);
+            expect(newWordSearch._width ).toEqual(12);
+            expect(newWordSearch._wordGrid).toEqual(['is', 'gonna', 'owe', 'me']);
+            expect(newWordSearch._wordArray).toEqual(['the', 'world']);
+        })
     });
 
     describe('parseWordSearchString', () => {
