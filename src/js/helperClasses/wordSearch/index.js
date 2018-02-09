@@ -16,6 +16,12 @@ export default class WordSearch {
     _height = null;
     _wordArray = [];
 
+    constructor(arg) {
+        if (typeof arg === 'string') {
+            this.setWordSearchData(this.parseWordSearchString(arg));
+        }
+    }
+
     setWordSearchData(dataObjToSet) {
         const { wordGrid, width, height, wordArray } = dataObjToSet;
         this._wordGrid = typeof wordGrid === 'object' && wordGrid || [];

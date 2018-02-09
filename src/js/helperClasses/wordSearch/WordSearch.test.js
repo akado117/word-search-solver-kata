@@ -7,6 +7,16 @@ describe('WordSearch Class', () => {
     beforeEach(() => {
         wordSearch = new WordSearch();
     });
+    describe('constructor', () => {
+        it('should not crash if something other than a string is passed in', () => {
+           wordSearch = new WordSearch(1231323);
+           expect(wordSearch._height).toBe(null);
+            wordSearch = new WordSearch({});
+            expect(wordSearch._height).toBe(null);
+            wordSearch = new WordSearch([]);
+            expect(wordSearch._height).toBe(null);
+        });
+    });
     describe('setWordSearchData', () => {
         it('should not cause program to crash if invalid data fed in', () => {
             expect(wordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
@@ -38,7 +48,7 @@ describe('WordSearch Class', () => {
             expect(wordSearch._width ).toEqual(12);
             expect(wordSearch._wordGrid).toEqual(['is', 'gonna', 'owe', 'me']);
             expect(wordSearch._wordArray).toEqual(['the', 'world']);
-        })
+        });
     });
 
     describe('getWordSearchData', () => {
@@ -49,7 +59,7 @@ describe('WordSearch Class', () => {
                height: null,
                wordArray: [],
            })
-       })
+       });
     });
 
     describe('parseWordSearchString', () => {
@@ -119,7 +129,7 @@ describe('WordSearch Class', () => {
                 ['c', 'c', 'c'],
             ];
             iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['R', 'U']], newGridData);
-        })
+        });
     });
 
     describe('getCoordsOfWord', () => {
@@ -185,8 +195,8 @@ describe('WordSearch Class', () => {
             }];
             const solution = 'You: (4,3),(3,4)\nPass: (c,1),(3,7)\nButter: (1,3),(3,7)\n';
             expect(wordSearch.buildOutputCoordString(sampleInput)).toEqual(solution);
-        })
-    })
+        });
+    });
 
     describe('findWordsInWordGrid', () => {
         const sampleInput = {
@@ -241,6 +251,6 @@ describe('WordSearch Class', () => {
             expect(wordSearch.getCoordsOfWord.mock.calls.length).toBe(6);
             expect(wordSearch.getCoordsOfWord.mock.calls[0][0]).toBe(sampleInput.wordArray[0]);
             expect(wordSearch.getCoordsOfWord.mock.calls[0][1]).toEqual(['UL']);
-        })
+        });
     })
 });
