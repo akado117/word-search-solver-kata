@@ -138,4 +138,16 @@ export default class WordSearch {
 
         return stringToReturn;
     }
+
+    static findWordsInWordGrid(searchDataObj) {
+        if (typeof searchDataObj !== 'object'
+            || typeof searchDataObj.width !== 'number'
+            || typeof searchDataObj.height !== 'number'
+            || typeof searchDataObj.wordGrid !== 'object'
+            || !searchDataObj.wordGrid.length
+            || typeof searchDataObj.wordArray !== 'object'
+            || !searchDataObj.wordArray.length
+            || searchDataObj.wordGrid.filter(row => typeof row !== 'object')
+            || searchDataObj.wordArray.filter(row => typeof row !== 'string')) return false;
+    }
 }

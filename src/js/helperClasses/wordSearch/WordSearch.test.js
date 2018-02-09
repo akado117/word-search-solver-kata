@@ -172,4 +172,36 @@ describe('WordSearch Class', () => {
             expect(WordSearch.buildOutputCoordString(sampleInput)).toEqual(solution);
         })
     })
+
+    describe('findWordsInWordGrid', () => {
+        it('should return false if input data is incorrect', () => {
+            expect(WordSearch.findWordsInWordGrid(2)).toBe(false);
+            expect(WordSearch.findWordsInWordGrid('adasdasd')).toBe(false);
+            expect(WordSearch.findWordsInWordGrid({})).toBe(false);
+            expect(WordSearch.findWordsInWordGrid({
+                wordGrid: [[]],
+                height: 2,
+                width: 2,
+                wordArray: [1, 2]
+            })).toBe(false);
+            expect(WordSearch.findWordsInWordGrid({
+                wordGrid: [{}],
+                height: 2,
+                width: 2,
+                wordArray: ['1', '']
+            })).toBe(false);
+            expect(WordSearch.findWordsInWordGrid({
+                wordGrid: [[]],
+                height: 'a',
+                width: 2,
+                wordArray: ['1', '']
+            })).toBe(false);
+            expect(WordSearch.findWordsInWordGrid({
+                wordGrid: [[]],
+                height: 2,
+                width: 'a',
+                wordArray: ['1', '']
+            })).toBe(false);
+        })
+    })
 });
