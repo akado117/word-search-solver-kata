@@ -146,4 +146,15 @@ describe('WordSearch Class', () => {
             expect(WordSearch.buildCoord([-1, -1], 1, [3, 3])).toEqual([2, 2]);
         })
     })
+
+    describe('buildOutputCoordString', () => {
+        it('should return "please use correct data" if incorrect data fed in', () => {
+            const solution = 'please use correct data';
+            expect(WordSearch.buildOutputCoordString(1)).toBe(solution);
+            expect(WordSearch.buildOutputCoordString([])).toBe(solution);
+            expect(WordSearch.buildOutputCoordString([1, 'd', []])).toBe(solution);
+            expect(WordSearch.buildOutputCoordString([{},{}])).toBe(solution);
+            expect(WordSearch.buildOutputCoordString([{a: 'what is'},{b: 'my purpose'}])).toBe(solution);
+        })
+    })
 });

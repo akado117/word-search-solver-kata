@@ -123,4 +123,10 @@ export default class WordSearch {
     static buildCoord(dirKeyValue, index, startingCoord) {
         return [dirKeyValue[0] * index + startingCoord[0], dirKeyValue[1] * index + startingCoord[1]];
     }
+
+    static buildOutputCoordString(wordObjects) {
+        if (typeof wordObjects !== 'object'
+            || !wordObjects.length
+            || wordObjects.filter(wordObj => typeof wordObj.coords !== 'object')) return 'please use correct data';
+    }
 }
