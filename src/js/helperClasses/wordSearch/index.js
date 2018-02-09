@@ -105,7 +105,16 @@ export default class WordSearch {
 
         let invalidDirection;
         const coordObjects = directionArr.map((direction) => {
-            if (!directionalKeys.get(direction)) invalidDirection = true;
+            const dirKeyValue = directionalKeys.get(direction);
+            if (!dirKeyValue) return invalidDirection = true;
+            const coords = [startingPoint];
+            for (let i = 1; i < word.length; i++) {
+                coords.push([dirKeyValue[0] * i + startingPoint[0], dirKeyValue[1] * i + startingPoint[1]]);
+            }
+            return {
+                word,
+                coords,
+            }
         });
 
         if (invalidDirection) return false;

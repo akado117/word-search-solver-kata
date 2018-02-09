@@ -125,18 +125,18 @@ describe('WordSearch Class', () => {
         it('should return false if any invalid directions fed in', () => {
             expect(WordSearch.getCoordsOfWord(word, ['get', 'shwifty'], startingPoint)).toBe(false);
         });
-        // it('should return array of objects containing word and coords', () => {
-        //     const solution = [{
-        //         word,
-        //         coords: [[3,3], [2, 2], [1, 1], [0, 0]],
-        //     }, {
-        //         word,
-        //         coords: [[3, 3], [3, 4], [3, 5], [3, 6]]
-        //     },{
-        //         word,
-        //         coords: [[3,3], [4, 2], [5, 1], [6, 0]]
-        //     }];
-        //     expect(WordSearch.getCoordsOfWord(word, directionArr, startingPoint)).toEqual(solution);
-        // })
+        it('should return array of objects containing word and coords', () => {
+            const solution = [{
+                word,
+                coords: [[3,3], [2, 2], [1, 1], [0, 0]],
+            }, {
+                word,
+                coords: [[3, 3], [3, 4], [3, 5], [3, 6]]
+            },{
+                word,
+                coords: [[3,3], [4, 2], [5, 1], [6, 0]]
+            }];
+            expect(WordSearch.getCoordsOfWord(word, directionArr, startingPoint)).toEqual(solution);
+        })
     })
 });
