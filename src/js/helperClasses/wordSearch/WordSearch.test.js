@@ -221,6 +221,15 @@ describe('WordSearch Class', () => {
             wordSearch.findWordsInWordGrid(sampleInput);
             expect(wordSearch.searchForWordAroundGridLoc.mock.calls.length).toBe(6);
             expect(wordSearch.getCoordsOfWord.mock.calls.length).toBe(0);
+        });
+        it('should return array of wordCoordsObjects if getCoordsOfWord returns them', () => {
+            wordSearch.searchForWordAroundGridLoc = sandbox.fn(wordSearch.searchForWordAroundGridLoc).mockReturnValue(['UL']);
+            wordSearch.getCoordsOfWord = sandbox.fn(wordSearch.getCoordsOfWord).mockReturnValue({});
+            expect(wordSearch.findWordsInWordGrid(sampleInput)).toEqual([{}, {}, {}, {}, {}, {}]);
+            expect(wordSearch.searchForWordAroundGridLoc.mock.calls.length).toBe(6);
+            expect(wordSearch.getCoordsOfWord.mock.calls.length).toBe(6);
+            expect(wordSearch.getCoordsOfWord.mock.calls[0][0]).toBe(sampleInput.wordArray[0]);
+            expect(wordSearch.getCoordsOfWord.mock.calls[0][1]).toEqual(['UL']);
         })
     })
 });

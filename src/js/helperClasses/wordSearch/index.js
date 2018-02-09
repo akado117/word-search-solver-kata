@@ -158,14 +158,15 @@ export default class WordSearch {
                 wordArray.forEach((word) => {
                     const currentGridLocation = [rowIdx, colIdx];
                     const wordDirectionArray = this.searchForWordAroundGridLoc(word, searchDataObj, currentGridLocation);
+                    let wordCoordObj;
                     if (wordDirectionArray) {
-                        this.getCoordsOfWord(word, wordDirectionArray, currentGridLocation);
+                        wordCoordObj = this.getCoordsOfWord(word, wordDirectionArray, currentGridLocation);
                     }
+                    if (wordCoordObj) wordCoordObjArray.push(wordCoordObj);
                 });
             });
         });
 
         return wordCoordObjArray.length ? wordCoordObjArray : false;
-
     }
 }
