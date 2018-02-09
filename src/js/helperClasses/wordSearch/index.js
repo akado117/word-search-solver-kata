@@ -103,7 +103,12 @@ export default class WordSearch {
             || typeof startingPoint !== 'object'
             || directionArr.length === 0) return false;
 
+        let invalidDirection;
+        const coordObjects = directionArr.map((direction) => {
+            if (!directionalKeys.get(direction)) invalidDirection = true;
+        });
 
-
+        if (invalidDirection) return false;
+        return coordObjects
     }
 }
