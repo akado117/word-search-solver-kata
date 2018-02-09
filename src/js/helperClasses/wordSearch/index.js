@@ -24,6 +24,15 @@ export default class WordSearch {
         this._wordArray = typeof wordArray === 'object' && wordArray || [];
     }
 
+    getWordSearchData() {
+        return {
+            wordGrid: this._wordGrid,
+            width: this._width,
+            height: this._height,
+            wordArray: this._wordArray,
+        }
+    }
+
     parseWordSearchString(searchString) {
         const baseConfig = {
             wordGrid: [],

@@ -41,6 +41,17 @@ describe('WordSearch Class', () => {
         })
     });
 
+    describe('getWordSearchData', () => {
+       it('should return internal data as a searchDataObj', () => {
+           expect(wordSearch.getWordSearchData()).toEqual({
+               wordGrid: [],
+               width: null,
+               height: null,
+               wordArray: [],
+           })
+       })
+    });
+
     describe('parseWordSearchString', () => {
         const extraDesc = 'should return null';
         it(`${extraDesc} should the input be an incorrect data type`, () => {
