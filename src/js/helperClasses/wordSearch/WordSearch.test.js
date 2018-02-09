@@ -69,7 +69,7 @@ describe('WordSearch Class', () => {
         });
     });
 
-    describe.only('diagonalSearch', () => {
+    describe('searchForWordAroundGirdLoc', () => {
         const word = 'bee';
         const gridData = {
                 wordGrid:[
@@ -82,13 +82,13 @@ describe('WordSearch Class', () => {
             };
         const coords = [[0, 0], [0, 2], [2, 2], [2, 0], [1, 1]];
         function iterateThroughPossibleGridLocations(word, optionalAnswers, optionalGridData) {
-            coords.forEach((coord, idx) => expect(WordSearch.diagonalSearch(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
+            coords.forEach((coord, idx) => expect(WordSearch.searchForWordAroundGirdLoc(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
         }
         it('should return false and not crash if incorrect data fed in', () => {
-            expect(WordSearch.diagonalSearch(word, coords)).toBe(false);
-            expect(WordSearch.diagonalSearch(213, gridData, coords)).toBe(false);
-            expect(WordSearch.diagonalSearch(word, 'asd', coords)).toBe(false);
-            expect(WordSearch.diagonalSearch(word, gridData, 23)).toBe(false);
+            expect(WordSearch.searchForWordAroundGirdLoc(word, coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGirdLoc(213, gridData, coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGirdLoc(word, 'asd', coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGirdLoc(word, gridData, 23)).toBe(false);
 
         });
         it('should return false if the search finds nothing in the diagonal direction', () => {
@@ -97,7 +97,16 @@ describe('WordSearch Class', () => {
         it('should return array containing directions of word if found', () => {
             const newGridData = cloneDeep(gridData);
             newGridData.wordGrid[0][0] = 'e';
-            iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['LR', 'UL']], newGridData);
+            iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['DR', 'UL']], newGridData);
+        });
+        it('should return array containing directions of word if found', () => {
+            const newGridData = cloneDeep(gridData);
+            newGridData.wordGrid = [
+                ['a', 'e', 'a'],
+                ['b', 'b', 'e'],
+                ['c', 'c', 'c'],
+            ];
+            iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['R', 'U']], newGridData);
         })
     });
 });
