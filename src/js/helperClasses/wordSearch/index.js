@@ -1,8 +1,8 @@
-const directionalKey = { // row, column (opposite of x/y coords)
-    UR: [1,1],
-    LR: [-1,1],
-    LL: [-1,-1],
-    UL: [1,-1],
+const directionalKey = { // row, column - is up on row + is right on column
+    UR: [-1, 1],
+    LR: [1, 1],
+    LL: [1, -1],
+    UL: [-1, -1],
 };
 
 export default class WordSearch {
@@ -60,7 +60,7 @@ export default class WordSearch {
         if (typeof word !== 'string' || typeof gridData !== 'object' || typeof coords !== 'object') return false;
         const { width, height, wordGrid } =  gridData;
         if (!width || !height || !wordGrid) return false;
-        const possibleDirection = {
+        const possibleDirections = {
             UR: true,
             LR: true,
             LL: true,
@@ -68,13 +68,13 @@ export default class WordSearch {
         };
         let failCounter = 0;
         function onFail(key) {
-            possibleDirection[key] = false;
+            possibleDirections[key] = false;
             failCounter++;
         }
         for (let i = 1; i < word.length; i++ ) {
             if (failCounter === 4) break;
             Object.keys(directionalKey).forEach((key) => {
-                if (!possibleDirection[key]) return; //if its already had a fail
+                if (!possibleDirections[key]) return; //if its already had a fail
                 const rowPos = directionalKey[key][0] * i + coords[0];
                 const colPos = directionalKey[key][1] * i + coords[1];
                 //out of bounds check
@@ -86,8 +86,11 @@ export default class WordSearch {
         }
 
         if (failCounter === 4) return false;
-        return possibleDirection;
-
+        const successfulDirections = [];
+        Object.keys(possibleDirections).forEach((key) => {
+            if (possibleDirections[key]) successfulDirections.push(key);
+        });
+        return successfulDirections;
     }
 
 }

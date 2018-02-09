@@ -1,5 +1,5 @@
 import WordSearch from '../wordSearch';
-import register from "../../../registerServiceWorker";
+import { cloneDeep } from 'lodash';
 
 describe('WordSearch Class', () => {
     let newWordSearch;
@@ -67,7 +67,7 @@ describe('WordSearch Class', () => {
             };
             expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b\nc,c,c')).toEqual(result);
         });
-    })
+    });
 
     describe.only('diagonalSearch', () => {
         const word = 'bee';
@@ -80,9 +80,9 @@ describe('WordSearch Class', () => {
                 width: 3,
                 height: 3,
             };
-        const coords = [[0, 0], [0, 2], [2, 2], [2, 0]];
-        function iterateThroughPossibleGridLocations(word) {
-            coords.forEach(coord => expect(WordSearch.diagonalSearch(word, gridData, coord)).toBe(false))
+        const coords = [[0, 0], [0, 2], [2, 2], [2, 0], [1, 1]];
+        function iterateThroughPossibleGridLocations(word, optionalAnswers, optionalGridData) {
+            coords.forEach((coord, idx) => expect(WordSearch.diagonalSearch(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
         }
         it('should return false and not crash if incorrect data fed in', () => {
             expect(WordSearch.diagonalSearch(word, coords)).toBe(false);
@@ -94,5 +94,10 @@ describe('WordSearch Class', () => {
         it('should return false if the search finds nothing in the diagonal direction', () => {
             iterateThroughPossibleGridLocations(word);
         });
+        it('should return array containing directions of word if found', () => {
+            const newGridData = cloneDeep(gridData);
+            newGridData.wordGrid[0][0] = 'e';
+            iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['LR', 'UL']], newGridData);
+        })
     });
 });
