@@ -118,6 +118,9 @@ describe('WordSearch Class', () => {
             expect(WordSearch.getCoordsOfWord(word, 'some incorrect data', startingPoint)).toBe(false);
             expect(WordSearch.getCoordsOfWord(12, directionArr, startingPoint)).toBe(false);
             expect(WordSearch.getCoordsOfWord(word, directionArr, 'MORTY')).toBe(false);
+        });
+        it('should return false if no directions fed in', () => {
+            expect(WordSearch.getCoordsOfWord(word, [], startingPoint)).toBe(false);
         })
     })
 });

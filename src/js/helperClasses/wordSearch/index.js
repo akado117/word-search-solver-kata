@@ -98,6 +98,12 @@ export default class WordSearch {
     }
 
     static getCoordsOfWord(word, directionArr, startingPoint) {
-        if (typeof word !== 'string' || typeof directionArr !== 'object' || typeof startingPoint !== 'object') return false;
+        if (typeof word !== 'string'
+            || typeof directionArr !== 'object'
+            || typeof startingPoint !== 'object'
+            || directionArr.length === 0) return false;
+
+
+
     }
 }
