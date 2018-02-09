@@ -3,13 +3,13 @@ import createSandbox from 'jest-sandbox';
 import { cloneDeep } from 'lodash';
 
 describe('WordSearch Class', () => {
-    let newWordSearch;
+    let wordSearch;
     beforeEach(() => {
-        newWordSearch = new WordSearch();
+        wordSearch = new WordSearch();
     });
     describe('setWordSearchData', () => {
         it('should not cause program to crash if invalid data fed in', () => {
-            expect(newWordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
+            expect(wordSearch.setWordSearchData('some junk data that isn what it should be ')).toBe(undefined);
         });
         it('should keep internal data defaults if incomplete data fed in', () => {
             const fakeParsedData = {
@@ -19,11 +19,11 @@ describe('WordSearch Class', () => {
                 heihgt: ['once', 'told', 'me'],
 
             };
-            newWordSearch.setWordSearchData(fakeParsedData);
-            expect(newWordSearch._height).toEqual(null);
-            expect(newWordSearch._width ).toEqual(null);
-            expect(newWordSearch._wordGrid).toEqual([]);
-            expect(newWordSearch._wordArray).toEqual([]);
+            wordSearch.setWordSearchData(fakeParsedData);
+            expect(wordSearch._height).toEqual(null);
+            expect(wordSearch._width ).toEqual(null);
+            expect(wordSearch._wordGrid).toEqual([]);
+            expect(wordSearch._wordArray).toEqual([]);
         });
         it('should set internal data when types are correct', () => {
             const fakeParsedData = {
@@ -33,27 +33,27 @@ describe('WordSearch Class', () => {
                 height: 12,
 
             };
-            newWordSearch.setWordSearchData(fakeParsedData);
-            expect(newWordSearch._height).toEqual(12);
-            expect(newWordSearch._width ).toEqual(12);
-            expect(newWordSearch._wordGrid).toEqual(['is', 'gonna', 'owe', 'me']);
-            expect(newWordSearch._wordArray).toEqual(['the', 'world']);
+            wordSearch.setWordSearchData(fakeParsedData);
+            expect(wordSearch._height).toEqual(12);
+            expect(wordSearch._width ).toEqual(12);
+            expect(wordSearch._wordGrid).toEqual(['is', 'gonna', 'owe', 'me']);
+            expect(wordSearch._wordArray).toEqual(['the', 'world']);
         })
     });
 
     describe('parseWordSearchString', () => {
         const extraDesc = 'should return null';
         it(`${extraDesc} should the input be an incorrect data type`, () => {
-            expect(WordSearch.parseWordSearchString(12313)).toBe(null);
+            expect(wordSearch.parseWordSearchString(12313)).toBe(null);
         });
         it(`${extraDesc} if the first line contains any words with less than two letters`, () => {
-            expect(WordSearch.parseWordSearchString(',\na,b')).toBe(null);
-            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no,I')).toBe(null);
+            expect(wordSearch.parseWordSearchString(',\na,b')).toBe(null);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no,I')).toBe(null);
         });
         it(`${extraDesc} if there are any rows with a different length than grid height or there are no rows`, () => {
-            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no')).toBe(null);
-            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b')).toBe(null);
-            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b\nc,c,c')).toBe(null);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no')).toBe(null);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b')).toBe(null);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b\nc,c,c')).toBe(null);
         });
         it('should return parsed input as an object with a word array and grid', () => {
             const result = {
@@ -66,7 +66,7 @@ describe('WordSearch Class', () => {
                 height: 3,
                 wordArray: ['asd', 'dds', '1337', 'uno', 'no'],
             };
-            expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b\nc,c,c')).toEqual(result);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b\nc,c,c')).toEqual(result);
         });
     });
 
@@ -83,13 +83,13 @@ describe('WordSearch Class', () => {
             };
         const coords = [[0, 0], [0, 2], [2, 2], [2, 0], [1, 1]];
         function iterateThroughPossibleGridLocations(word, optionalAnswers, optionalGridData) {
-            coords.forEach((coord, idx) => expect(WordSearch.searchForWordAroundGridLoc(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
+            coords.forEach((coord, idx) => expect(wordSearch.searchForWordAroundGridLoc(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
         }
         it('should return false and not crash if incorrect data fed in', () => {
-            expect(WordSearch.searchForWordAroundGridLoc(word, coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGridLoc(213, gridData, coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGridLoc(word, 'asd', coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGridLoc(word, gridData, 23)).toBe(false);
+            expect(wordSearch.searchForWordAroundGridLoc(word, coords)).toBe(false);
+            expect(wordSearch.searchForWordAroundGridLoc(213, gridData, coords)).toBe(false);
+            expect(wordSearch.searchForWordAroundGridLoc(word, 'asd', coords)).toBe(false);
+            expect(wordSearch.searchForWordAroundGridLoc(word, gridData, 23)).toBe(false);
 
         });
         it('should return false if the search finds nothing in the diagonal direction', () => {
@@ -116,15 +116,15 @@ describe('WordSearch Class', () => {
         const directionArr = ['UL', 'R', 'DL'];
         const startingPoint = [3, 3];
         it('should return false if incorrect data fed in', () => {
-            expect(WordSearch.getCoordsOfWord(word, 'some incorrect data', startingPoint)).toBe(false);
-            expect(WordSearch.getCoordsOfWord(12, directionArr, startingPoint)).toBe(false);
-            expect(WordSearch.getCoordsOfWord(word, directionArr, 'MORTY')).toBe(false);
+            expect(wordSearch.getCoordsOfWord(word, 'some incorrect data', startingPoint)).toBe(false);
+            expect(wordSearch.getCoordsOfWord(12, directionArr, startingPoint)).toBe(false);
+            expect(wordSearch.getCoordsOfWord(word, directionArr, 'MORTY')).toBe(false);
         });
         it('should return false if no directions fed in', () => {
-            expect(WordSearch.getCoordsOfWord(word, [], startingPoint)).toBe(false);
+            expect(wordSearch.getCoordsOfWord(word, [], startingPoint)).toBe(false);
         });
         it('should return false if any invalid directions fed in', () => {
-            expect(WordSearch.getCoordsOfWord(word, ['get', 'shwifty'], startingPoint)).toBe(false);
+            expect(wordSearch.getCoordsOfWord(word, ['get', 'shwifty'], startingPoint)).toBe(false);
         });
         it('should return array of objects containing word and coords', () => {
             const solution = [{
@@ -137,14 +137,14 @@ describe('WordSearch Class', () => {
                 word,
                 coords: [[3,3], [4, 2], [5, 1], [6, 0]]
             }];
-            expect(WordSearch.getCoordsOfWord(word, directionArr, startingPoint)).toEqual(solution);
+            expect(wordSearch.getCoordsOfWord(word, directionArr, startingPoint)).toEqual(solution);
         });
     });
 
     describe('buildCoord', () => {
         it('should return coord array object when correct data fed in', () => {//this is a really simple helper function that's called A LOT, so not going to implement typeChecking for perf reasons
-            expect(WordSearch.buildCoord([0, 1], 1, [3, 3])).toEqual([3, 4]);
-            expect(WordSearch.buildCoord([-1, -1], 1, [3, 3])).toEqual([2, 2]);
+            expect(wordSearch.buildCoord([0, 1], 1, [3, 3])).toEqual([3, 4]);
+            expect(wordSearch.buildCoord([-1, -1], 1, [3, 3])).toEqual([2, 2]);
         });
     });
 
@@ -154,12 +154,12 @@ describe('WordSearch Class', () => {
         });
         it('should return "please use correct data" if incorrect data fed in', () => {
             const solution = 'please use correct data';
-            expect(WordSearch.buildOutputCoordString(1)).toBe(solution);
-            expect(WordSearch.buildOutputCoordString([])).toBe(solution);
-            expect(WordSearch.buildOutputCoordString([1, 'd', []])).toBe(solution);
-            expect(WordSearch.buildOutputCoordString([{},{}])).toBe(solution);
-            expect(WordSearch.buildOutputCoordString([{a: 'what is'},{b: 'my purpose'}])).toBe(solution);
-            expect(WordSearch.buildOutputCoordString([{coords: 'what is'},{word: 'my purpose'}])).toBe(solution);
+            expect(wordSearch.buildOutputCoordString(1)).toBe(solution);
+            expect(wordSearch.buildOutputCoordString([])).toBe(solution);
+            expect(wordSearch.buildOutputCoordString([1, 'd', []])).toBe(solution);
+            expect(wordSearch.buildOutputCoordString([{},{}])).toBe(solution);
+            expect(wordSearch.buildOutputCoordString([{a: 'what is'},{b: 'my purpose'}])).toBe(solution);
+            expect(wordSearch.buildOutputCoordString([{coords: 'what is'},{word: 'my purpose'}])).toBe(solution);
         });
         it('should return string of words with their coords', () => {
             const sampleInput = [{
@@ -173,7 +173,7 @@ describe('WordSearch Class', () => {
                 coords: [[1, 3], [3, 7]],
             }];
             const solution = 'You: (4,3),(3,4)\nPass: (c,1),(3,7)\nButter: (1,3),(3,7)\n';
-            expect(WordSearch.buildOutputCoordString(sampleInput)).toEqual(solution);
+            expect(wordSearch.buildOutputCoordString(sampleInput)).toEqual(solution);
         })
     })
 
@@ -184,6 +184,8 @@ describe('WordSearch Class', () => {
             width: 5,
             wordArray: ['bee', 'movie']
         };
+        const searchStub = jest.fn();
+        const coordsStub = jest.fn();
         let sandbox;
         beforeEach(() => {
             sandbox = createSandbox();
@@ -193,25 +195,32 @@ describe('WordSearch Class', () => {
         });
         it('should return false if input data is incorrect', () => {
             const inputClone = cloneDeep(sampleInput);
-            expect(WordSearch.findWordsInWordGrid(2)).toBe(false);
-            expect(WordSearch.findWordsInWordGrid('adasdasd')).toBe(false);
-            expect(WordSearch.findWordsInWordGrid({})).toBe(false);
+            expect(wordSearch.findWordsInWordGrid(2)).toBe(false);
+            expect(wordSearch.findWordsInWordGrid('adasdasd')).toBe(false);
+            expect(wordSearch.findWordsInWordGrid({})).toBe(false);
             inputClone.wordArray = [1, 2];
-            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            expect(wordSearch.findWordsInWordGrid(inputClone)).toBe(false);
             inputClone.wordArray = sampleInput.wordArray;
             inputClone.wordGrid = [{}];
-            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            expect(wordSearch.findWordsInWordGrid(inputClone)).toBe(false);
             inputClone.wordGrid = sampleInput.wordGrid;
             inputClone.width = '1';
-            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            expect(wordSearch.findWordsInWordGrid(inputClone)).toBe(false);
             inputClone.width = sampleInput.width;
             inputClone.height = '1';
-            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            expect(wordSearch.findWordsInWordGrid(inputClone)).toBe(false);
         });
         it('returns false if no words found', () => {
-            sandbox.fn(WordSearch.searchForWordAroundGridLoc).mockReturnThis(false);
-            sandbox.fn(WordSearch.getCoordsOfWord).mockReturnThis(false);
-            expect(WordSearch.findWordsInWordGrid(sampleInput)).toBe(false);
+            wordSearch.searchForWordAroundGridLoc = sandbox.fn(wordSearch.searchForWordAroundGridLoc).mockReturnValue(false);
+            wordSearch.getCoordsOfWord = sandbox.fn(wordSearch.getCoordsOfWord).mockReturnThis(false);
+            expect(wordSearch.findWordsInWordGrid(sampleInput)).toBe(false);
+        });
+        it('should not call get coords of word if theres no word directions found', () => {
+            wordSearch.searchForWordAroundGridLoc = sandbox.fn(wordSearch.searchForWordAroundGridLoc).mockReturnValue(false);
+            wordSearch.getCoordsOfWord = sandbox.fn(wordSearch.getCoordsOfWord).mockReturnValue({});
+            wordSearch.findWordsInWordGrid(sampleInput);
+            expect(wordSearch.searchForWordAroundGridLoc.mock.calls.length).toBe(6);
+            expect(wordSearch.getCoordsOfWord.mock.calls.length).toBe(0);
         })
     })
 });

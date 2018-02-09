@@ -24,7 +24,7 @@ export default class WordSearch {
         this._wordArray = typeof wordArray === 'object' && wordArray || [];
     }
 
-    static parseWordSearchString(searchString) {
+    parseWordSearchString(searchString) {
         const baseConfig = {
             wordGrid: [],
             width: null,
@@ -61,7 +61,7 @@ export default class WordSearch {
         return baseConfig
     }
 
-    static searchForWordAroundGridLoc(word, gridData, coords) { //assumes there has already been a current position check
+    searchForWordAroundGridLoc(word, gridData, coords) { //assumes there has already been a current position check
         if (typeof word !== 'string' || typeof gridData !== 'object' || typeof coords !== 'object') return false;
         const { width, height, wordGrid } =  gridData;
         if (!width || !height || !wordGrid) return false;
@@ -96,7 +96,7 @@ export default class WordSearch {
         return successfulDirections;
     }
 
-    static getCoordsOfWord(word, directionArr, startingCoord) {
+    getCoordsOfWord(word, directionArr, startingCoord) {
         if (typeof word !== 'string'
             || typeof directionArr !== 'object'
             || typeof startingCoord !== 'object'
@@ -120,11 +120,11 @@ export default class WordSearch {
         return coordObjects
     }
 
-    static buildCoord(dirKeyValue, index, startingCoord) {
+    buildCoord(dirKeyValue, index, startingCoord) {
         return [dirKeyValue[0] * index + startingCoord[0], dirKeyValue[1] * index + startingCoord[1]];
     }
 
-    static buildOutputCoordString(wordObjects) {
+    buildOutputCoordString(wordObjects) {
         if (typeof wordObjects !== 'object'
             || !wordObjects.length
             || wordObjects.filter(wordObj => (typeof wordObj.word !== 'string' || typeof wordObj.coords !== 'object')).length) return 'please use correct data';
@@ -139,20 +139,21 @@ export default class WordSearch {
         return stringToReturn;
     }
 
-    static findWordsInWordGrid(searchDataObj) { //entry into searching so data checking is somewhat heavy
+    findWordsInWordGrid(searchDataObj) { //entry into searching so data checking is somewhat heavy
         const { width, height, wordGrid, wordArray } = searchDataObj;
         if (typeof searchDataObj !== 'object'
             || typeof width !== 'number'
             || typeof height !== 'number'
             || typeof wordGrid !== 'object'
             || !wordGrid.length
+            || !wordGrid[0].length
             || typeof wordArray !== 'object'
             || !wordArray.length
-            || wordGrid.filter(row => typeof row !== 'object')
-            || wordArray.filter(row => typeof row !== 'string')) return false;
+            || wordGrid.filter(row => typeof row !== 'object').length
+            || wordArray.filter(row => typeof row !== 'string').length) return false;
 
         const wordCoordObjArray = [];
-        searchDataObj.wordGrid.forEach((row, rowIdx) => {
+        wordGrid.forEach((row, rowIdx) => {
             row.forEach((col, colIdx) => {
                 wordArray.forEach((word) => {
                     const currentGridLocation = [rowIdx, colIdx];
