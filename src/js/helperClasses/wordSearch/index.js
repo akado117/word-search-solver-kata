@@ -79,8 +79,7 @@ export default class WordSearch {
             if (failCounter === numberOfDirections) break;
             directionalKeys.forEach((value, key) => {
                 if (possibleDirections[key] === false) return; //if its already had a fail
-                const rowPos = value[0] * i + coords[0];
-                const colPos = value[1] * i + coords[1];
+                const [rowPos, colPos] = this.buildCoord(value, i, coords);
                 //out of bounds check
                 if (rowPos < 0 || height <= rowPos) return onFail(key);
                 if (colPos < 0 || width <= colPos) return onFail(key);
@@ -97,19 +96,19 @@ export default class WordSearch {
         return successfulDirections;
     }
 
-    static getCoordsOfWord(word, directionArr, startingPoint) {
+    static getCoordsOfWord(word, directionArr, startingCoord) {
         if (typeof word !== 'string'
             || typeof directionArr !== 'object'
-            || typeof startingPoint !== 'object'
+            || typeof startingCoord !== 'object'
             || directionArr.length === 0) return false;
 
         let invalidDirection;
         const coordObjects = directionArr.map((direction) => {
             const dirKeyValue = directionalKeys.get(direction);
             if (!dirKeyValue) return invalidDirection = true;
-            const coords = [startingPoint];
+            const coords = [startingCoord];
             for (let i = 1; i < word.length; i++) {
-                coords.push([dirKeyValue[0] * i + startingPoint[0], dirKeyValue[1] * i + startingPoint[1]]);
+                coords.push(this.buildCoord(dirKeyValue, i, startingCoord ));
             }
             return {
                 word,
@@ -119,5 +118,9 @@ export default class WordSearch {
 
         if (invalidDirection) return false;
         return coordObjects
+    }
+
+    static buildCoord(dirKeyValue, index, startingCoord) {
+        return [dirKeyValue[0] * index + startingCoord[0], dirKeyValue[1] * index + startingCoord[1]];
     }
 }

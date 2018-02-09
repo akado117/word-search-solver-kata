@@ -137,6 +137,13 @@ describe('WordSearch Class', () => {
                 coords: [[3,3], [4, 2], [5, 1], [6, 0]]
             }];
             expect(WordSearch.getCoordsOfWord(word, directionArr, startingPoint)).toEqual(solution);
+        });
+    });
+
+    describe('buildCoord', () => {
+        it('should return coord array object when correct data fed in', () => {//this is a really simple helper function that's called A LOT, so not going to implement typeChecking for perf reasons
+            expect(WordSearch.buildCoord([0, 1], 1, [3, 3])).toEqual([3, 4]);
+            expect(WordSearch.buildCoord([-1, -1], 1, [3, 3])).toEqual([2, 2]);
         })
     })
 });
