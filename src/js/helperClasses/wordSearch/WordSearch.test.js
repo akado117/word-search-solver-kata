@@ -1,4 +1,5 @@
 import WordSearch from '../wordSearch';
+import createSandbox from 'jest-sandbox';
 import { cloneDeep } from 'lodash';
 
 describe('WordSearch Class', () => {
@@ -69,7 +70,7 @@ describe('WordSearch Class', () => {
         });
     });
 
-    describe('searchForWordAroundGirdLoc', () => {
+    describe('searchForWordAroundGridLoc', () => {
         const word = 'bee';
         const gridData = {
                 wordGrid:[
@@ -82,13 +83,13 @@ describe('WordSearch Class', () => {
             };
         const coords = [[0, 0], [0, 2], [2, 2], [2, 0], [1, 1]];
         function iterateThroughPossibleGridLocations(word, optionalAnswers, optionalGridData) {
-            coords.forEach((coord, idx) => expect(WordSearch.searchForWordAroundGirdLoc(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
+            coords.forEach((coord, idx) => expect(WordSearch.searchForWordAroundGridLoc(word, optionalGridData || gridData, coord)).toEqual(optionalAnswers && optionalAnswers[idx] || false))
         }
         it('should return false and not crash if incorrect data fed in', () => {
-            expect(WordSearch.searchForWordAroundGirdLoc(word, coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGirdLoc(213, gridData, coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGirdLoc(word, 'asd', coords)).toBe(false);
-            expect(WordSearch.searchForWordAroundGirdLoc(word, gridData, 23)).toBe(false);
+            expect(WordSearch.searchForWordAroundGridLoc(word, coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGridLoc(213, gridData, coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGridLoc(word, 'asd', coords)).toBe(false);
+            expect(WordSearch.searchForWordAroundGridLoc(word, gridData, 23)).toBe(false);
 
         });
         it('should return false if the search finds nothing in the diagonal direction', () => {
@@ -148,6 +149,9 @@ describe('WordSearch Class', () => {
     });
 
     describe('buildOutputCoordString', () => {
+        beforeEach(() => {
+
+        });
         it('should return "please use correct data" if incorrect data fed in', () => {
             const solution = 'please use correct data';
             expect(WordSearch.buildOutputCoordString(1)).toBe(solution);
@@ -174,34 +178,40 @@ describe('WordSearch Class', () => {
     })
 
     describe('findWordsInWordGrid', () => {
+        const sampleInput = {
+            wordGrid: [['a','c','e']],
+            height: 5,
+            width: 5,
+            wordArray: ['bee', 'movie']
+        };
+        let sandbox;
+        beforeEach(() => {
+            sandbox = createSandbox();
+        });
+        afterEach(() => {
+            sandbox.restore();
+        });
         it('should return false if input data is incorrect', () => {
+            const inputClone = cloneDeep(sampleInput);
             expect(WordSearch.findWordsInWordGrid(2)).toBe(false);
             expect(WordSearch.findWordsInWordGrid('adasdasd')).toBe(false);
             expect(WordSearch.findWordsInWordGrid({})).toBe(false);
-            expect(WordSearch.findWordsInWordGrid({
-                wordGrid: [[]],
-                height: 2,
-                width: 2,
-                wordArray: [1, 2]
-            })).toBe(false);
-            expect(WordSearch.findWordsInWordGrid({
-                wordGrid: [{}],
-                height: 2,
-                width: 2,
-                wordArray: ['1', '']
-            })).toBe(false);
-            expect(WordSearch.findWordsInWordGrid({
-                wordGrid: [[]],
-                height: 'a',
-                width: 2,
-                wordArray: ['1', '']
-            })).toBe(false);
-            expect(WordSearch.findWordsInWordGrid({
-                wordGrid: [[]],
-                height: 2,
-                width: 'a',
-                wordArray: ['1', '']
-            })).toBe(false);
+            inputClone.wordArray = [1, 2];
+            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            inputClone.wordArray = sampleInput.wordArray;
+            inputClone.wordGrid = [{}];
+            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            inputClone.wordGrid = sampleInput.wordGrid;
+            inputClone.width = '1';
+            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+            inputClone.width = sampleInput.width;
+            inputClone.height = '1';
+            expect(WordSearch.findWordsInWordGrid(inputClone)).toBe(false);
+        });
+        it('returns false if no words found', () => {
+            sandbox.fn(WordSearch.searchForWordAroundGridLoc).mockReturnThis(false);
+            sandbox.fn(WordSearch.getCoordsOfWord).mockReturnThis(false);
+            expect(WordSearch.findWordsInWordGrid(sampleInput)).toBe(false);
         })
     })
 });

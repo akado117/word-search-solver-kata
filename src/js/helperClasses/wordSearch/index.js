@@ -61,7 +61,7 @@ export default class WordSearch {
         return baseConfig
     }
 
-    static searchForWordAroundGirdLoc(word, gridData, coords) { //assumes there has already been a current position check
+    static searchForWordAroundGridLoc(word, gridData, coords) { //assumes there has already been a current position check
         if (typeof word !== 'string' || typeof gridData !== 'object' || typeof coords !== 'object') return false;
         const { width, height, wordGrid } =  gridData;
         if (!width || !height || !wordGrid) return false;
@@ -139,15 +139,32 @@ export default class WordSearch {
         return stringToReturn;
     }
 
-    static findWordsInWordGrid(searchDataObj) {
+    static findWordsInWordGrid(searchDataObj) { //entry into searching so data checking is somewhat heavy
+        const { width, height, wordGrid, wordArray } = searchDataObj;
         if (typeof searchDataObj !== 'object'
-            || typeof searchDataObj.width !== 'number'
-            || typeof searchDataObj.height !== 'number'
-            || typeof searchDataObj.wordGrid !== 'object'
-            || !searchDataObj.wordGrid.length
-            || typeof searchDataObj.wordArray !== 'object'
-            || !searchDataObj.wordArray.length
-            || searchDataObj.wordGrid.filter(row => typeof row !== 'object')
-            || searchDataObj.wordArray.filter(row => typeof row !== 'string')) return false;
+            || typeof width !== 'number'
+            || typeof height !== 'number'
+            || typeof wordGrid !== 'object'
+            || !wordGrid.length
+            || typeof wordArray !== 'object'
+            || !wordArray.length
+            || wordGrid.filter(row => typeof row !== 'object')
+            || wordArray.filter(row => typeof row !== 'string')) return false;
+
+        const wordCoordObjArray = [];
+        searchDataObj.wordGrid.forEach((row, rowIdx) => {
+            row.forEach((col, colIdx) => {
+                wordArray.forEach((word) => {
+                    const currentGridLocation = [rowIdx, colIdx];
+                    const wordDirectionArray = this.searchForWordAroundGridLoc(word, searchDataObj, currentGridLocation);
+                    if (wordDirectionArray) {
+                        this.getCoordsOfWord(word, wordDirectionArray, currentGridLocation);
+                    }
+                });
+            });
+        });
+
+        return wordCoordObjArray.length ? wordCoordObjArray : false;
+
     }
 }
