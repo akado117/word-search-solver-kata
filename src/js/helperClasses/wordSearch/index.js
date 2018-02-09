@@ -127,6 +127,15 @@ export default class WordSearch {
     static buildOutputCoordString(wordObjects) {
         if (typeof wordObjects !== 'object'
             || !wordObjects.length
-            || wordObjects.filter(wordObj => typeof wordObj.coords !== 'object')) return 'please use correct data';
+            || wordObjects.filter(wordObj => (typeof wordObj.word !== 'string' || typeof wordObj.coords !== 'object')).length) return 'please use correct data';
+
+        let stringToReturn = '';
+        wordObjects.forEach((wordObj) => {
+            let coordSubString = ': ';
+            wordObj.coords.forEach(coord => coordSubString += `(${coord[0]},${coord[1]}),`);
+            stringToReturn += `${wordObj.word}${coordSubString.slice(0,-1)}\n`
+        });
+
+        return stringToReturn;
     }
 }

@@ -144,8 +144,8 @@ describe('WordSearch Class', () => {
         it('should return coord array object when correct data fed in', () => {//this is a really simple helper function that's called A LOT, so not going to implement typeChecking for perf reasons
             expect(WordSearch.buildCoord([0, 1], 1, [3, 3])).toEqual([3, 4]);
             expect(WordSearch.buildCoord([-1, -1], 1, [3, 3])).toEqual([2, 2]);
-        })
-    })
+        });
+    });
 
     describe('buildOutputCoordString', () => {
         it('should return "please use correct data" if incorrect data fed in', () => {
@@ -155,6 +155,21 @@ describe('WordSearch Class', () => {
             expect(WordSearch.buildOutputCoordString([1, 'd', []])).toBe(solution);
             expect(WordSearch.buildOutputCoordString([{},{}])).toBe(solution);
             expect(WordSearch.buildOutputCoordString([{a: 'what is'},{b: 'my purpose'}])).toBe(solution);
+            expect(WordSearch.buildOutputCoordString([{coords: 'what is'},{word: 'my purpose'}])).toBe(solution);
+        });
+        it('should return string of words with their coords', () => {
+            const sampleInput = [{
+                word: 'You',
+                coords: [[4, 3], [3, 4]],
+            }, {
+                word: 'Pass',
+                coords: [['c', 1], [3, 7]],
+            }, {
+                word: 'Butter',
+                coords: [[1, 3], [3, 7]],
+            }];
+            const solution = 'You: (4,3),(3,4)\nPass: (c,1),(3,7)\nButter: (1,3),(3,7)\n';
+            expect(WordSearch.buildOutputCoordString(sampleInput)).toEqual(solution);
         })
     })
 });
