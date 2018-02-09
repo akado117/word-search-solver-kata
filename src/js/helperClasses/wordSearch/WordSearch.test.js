@@ -84,6 +84,13 @@ describe('WordSearch Class', () => {
         function iterateThroughPossibleGridLocations(word) {
             coords.forEach(coord => expect(WordSearch.diagonalSearch(word, gridData, coord)).toBe(false))
         }
+        it('should return false and not crash if incorrect data fed in', () => {
+            expect(WordSearch.diagonalSearch(word, coords)).toBe(false);
+            expect(WordSearch.diagonalSearch(213, gridData, coords)).toBe(false);
+            expect(WordSearch.diagonalSearch(word, 'asd', coords)).toBe(false);
+            expect(WordSearch.diagonalSearch(word, gridData, 23)).toBe(false);
+
+        });
         it('should return false if the search finds nothing in the diagonal direction', () => {
             iterateThroughPossibleGridLocations(word);
         });

@@ -57,7 +57,9 @@ export default class WordSearch {
     }
 
     static diagonalSearch(word, gridData, coords) { //assumes there has already been a current position check
+        if (typeof word !== 'string' || typeof gridData !== 'object' || typeof coords !== 'object') return false;
         const { width, height, wordGrid } =  gridData;
+        if (!width || !height || !wordGrid) return false;
         const possibleDirection = {
             UR: true,
             LR: true,
