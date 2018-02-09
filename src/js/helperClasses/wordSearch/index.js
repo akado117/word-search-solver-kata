@@ -18,11 +18,12 @@ export default class WordSearch {
 
     constructor(arg) {
         if (typeof arg === 'string') {
-            this.setWordSearchData(this.parseWordSearchString(arg));
+            this.setWordSearchData(this.parseWordSearchString(arg))
         }
     }
 
     setWordSearchData(dataObjToSet) {
+        if (!dataObjToSet) return;
         const { wordGrid, width, height, wordArray } = dataObjToSet;
         this._wordGrid = typeof wordGrid === 'object' && wordGrid || [];
         this._width = typeof width === 'number' && width || null;

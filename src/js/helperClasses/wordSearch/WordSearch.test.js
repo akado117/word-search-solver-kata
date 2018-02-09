@@ -9,13 +9,17 @@ describe('WordSearch Class', () => {
     });
     describe('constructor', () => {
         it('should not crash if something other than a string is passed in', () => {
-           wordSearch = new WordSearch(1231323);
-           expect(wordSearch._height).toBe(null);
+            wordSearch = new WordSearch(1231323);
+            expect(wordSearch._height).toBe(null);
             wordSearch = new WordSearch({});
             expect(wordSearch._height).toBe(null);
             wordSearch = new WordSearch([]);
             expect(wordSearch._height).toBe(null);
         });
+        it('should not crash if an incorrect string is passed in', () => {
+            //jest has limitations mocking individual functions in es6 classes, so not mocking ones called in constructor
+            wordSearch = new WordSearch('some incorrect string thing')
+        })
     });
     describe('setWordSearchData', () => {
         it('should not cause program to crash if invalid data fed in', () => {
