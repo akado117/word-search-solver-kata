@@ -18,7 +18,7 @@ export default class WordSearch {
 
     constructor(arg) {
         if (typeof arg === 'string') {
-            this.setWordSearchData(this.parseWordSearchString(arg))
+            this.setWordSearchData(this.parseWordSearchString(arg));
         }
     }
 

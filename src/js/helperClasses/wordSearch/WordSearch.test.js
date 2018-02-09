@@ -7,7 +7,7 @@ describe('WordSearch Class', () => {
     beforeEach(() => {
         wordSearch = new WordSearch();
     });
-    describe('constructor', () => {
+    describe('constructor', () => {//jest has limitations mocking individual functions in es6 classes, so unable to mock ones called in constructor
         it('should not crash if something other than a string is passed in', () => {
             wordSearch = new WordSearch(1231323);
             expect(wordSearch._height).toBe(null);
@@ -17,8 +17,19 @@ describe('WordSearch Class', () => {
             expect(wordSearch._height).toBe(null);
         });
         it('should not crash if an incorrect string is passed in', () => {
-            //jest has limitations mocking individual functions in es6 classes, so not mocking ones called in constructor
             wordSearch = new WordSearch('some incorrect string thing')
+        });
+        it('should set data to object if correct style string passed in', () => {
+            const string = 'word,are\nf,u,n\nn,s,u\nc,h,!';
+            wordSearch = new WordSearch(string);
+            expect(wordSearch._wordGrid).toEqual([
+                ['f', 'u', 'n'],
+                ['n', 's', 'u'],
+                ['c', 'h', '!'],
+            ]);
+            expect(wordSearch._width).toBe(3);
+            expect(wordSearch._height).toBe(3);
+            expect(wordSearch._wordArray).toEqual(['word', 'are']);
         })
     });
     describe('setWordSearchData', () => {
