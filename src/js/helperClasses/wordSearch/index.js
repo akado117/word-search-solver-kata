@@ -97,4 +97,7 @@ export default class WordSearch {
         return successfulDirections;
     }
 
+    static getCoordsOfWord(word, directionArr, startingPoint) {
+        if (typeof word !== 'string' || typeof directionArr !== 'object' || typeof startingPoint !== 'object') return false;
+    }
 }

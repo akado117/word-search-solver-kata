@@ -109,4 +109,15 @@ describe('WordSearch Class', () => {
             iterateThroughPossibleGridLocations('be', [0, 0, 0, 0, ['R', 'U']], newGridData);
         })
     });
+
+    describe('getCoordsOfWord', () => {
+        const word = 'RICK';
+        const directionArr = ['UL', 'R', 'DL'];
+        const startingPoint = [3, 3];
+        it('should return false if incorrect data fed in', () => {
+            expect(WordSearch.getCoordsOfWord(word, 'some incorrect data', startingPoint)).toBe(false);
+            expect(WordSearch.getCoordsOfWord(12, directionArr, startingPoint)).toBe(false);
+            expect(WordSearch.getCoordsOfWord(word, directionArr, 'MORTY')).toBe(false);
+        })
+    })
 });
