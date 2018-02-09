@@ -1,4 +1,5 @@
 import WordSearch from '../wordSearch';
+import register from "../../../registerServiceWorker";
 
 describe('WordSearch Class', () => {
     let newWordSearch;
@@ -65,6 +66,26 @@ describe('WordSearch Class', () => {
                 wordArray: ['asd', 'dds', '1337', 'uno', 'no'],
             };
             expect(WordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b\nc,c,c')).toEqual(result);
-        })
+        });
     })
+
+    describe.only('diagonalSearch', () => {
+        const word = 'bee';
+        const gridData = {
+                wordGrid:[
+                    ['a', 'a', 'a'],
+                    ['b', 'b', 'b'],
+                    ['c', 'c', 'e'],
+                ],
+                width: 3,
+                height: 3,
+            };
+        const coords = [[0, 0], [0, 2], [2, 2], [2, 0]];
+        function iterateThroughPossibleGridLocations(word) {
+            coords.forEach(coord => expect(WordSearch.diagonalSearch(word, gridData, coord)).toBe(false))
+        }
+        it('should return false if the search finds nothing in the diagonal direction', () => {
+            iterateThroughPossibleGridLocations(word);
+        });
+    });
 });

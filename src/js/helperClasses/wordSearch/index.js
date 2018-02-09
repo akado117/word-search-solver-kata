@@ -1,4 +1,9 @@
-import fs from 'fs';
+const directionalKey = { // row, column (opposite of x/y coords)
+    UR: [1,1],
+    LR: [-1,1],
+    LL: [-1,-1],
+    UL: [1,-1],
+};
 
 export default class WordSearch {
     _wordGrid = [];
@@ -49,6 +54,38 @@ export default class WordSearch {
         if (rowLengthDifferentThanHeight) return null;
         baseConfig.width = baseConfig.wordGrid[0].length;
         return baseConfig
+    }
+
+    static diagonalSearch(word, gridData, coords) { //assumes there has already been a current position check
+        const { width, height, wordGrid } =  gridData;
+        const possibleDirection = {
+            UR: true,
+            LR: true,
+            LL: true,
+            UL: true,
+        };
+        let failCounter = 0;
+        function onFail(key) {
+            possibleDirection[key] = false;
+            failCounter++;
+        }
+        for (let i = 1; i < word.length; i++ ) {
+            if (failCounter === 4) break;
+            Object.keys(directionalKey).forEach((key) => {
+                if (!possibleDirection[key]) return; //if its already had a fail
+                const rowPos = directionalKey[key][0] * i + coords[0];
+                const colPos = directionalKey[key][1] * i + coords[1];
+                //out of bounds check
+                if (rowPos < 0 || height <= rowPos) return onFail(key);
+                if (colPos < 0 || width <= colPos) return onFail(key);
+                //equality check
+                if (word[i] !== wordGrid[rowPos][colPos]) return onFail(key);
+            })
+        }
+
+        if (failCounter === 4) return false;
+        return possibleDirection;
+
     }
 
 }
