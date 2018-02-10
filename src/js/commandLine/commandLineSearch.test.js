@@ -36,5 +36,14 @@ describe('commandLineSearch' , () => {
            expect(mockFindWordsInWordGrid).toHaveBeenCalledTimes(1);
            expect(mockBuildOutputCoordString).toHaveBeenCalledTimes(1);
        });
+       it('should call functions from WordSearch in correct order', () => {
+           mockFindWordsInWordGrid.mockReturnValue(false);
+           searchForWords('word,are\nf,u,n\nn,s,u\nc,h,!');
+           expect(WordSearch).toHaveBeenCalledTimes(1);
+           expect(mockGetWordSearchData).toHaveBeenCalledTimes(1);
+           expect(mockFindWordsInWordGrid).toHaveBeenCalledTimes(1);
+           expect(mockBuildOutputCoordString).toHaveBeenCalledTimes(0);
+           mockFindWordsInWordGrid.mockReturnValue('anything');
+       });
    })
 });
