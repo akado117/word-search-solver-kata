@@ -11,12 +11,11 @@ const directionalKeys = new Map([ // row, column - is up on row + is right on co
 const numberOfDirections = directionalKeys.size;
 
 export default class WordSearch {
-    _wordGrid = [];
-    _width = null;
-    _height = null;
-    _wordArray = [];
-
     constructor(arg) {
+        this._wordGrid = [];
+        this._width = null;
+        this._height = null;
+        this._wordArray = [];
         if (typeof arg === 'string') {
             this.setWordSearchData(this.parseWordSearchString(arg));
         }
@@ -47,24 +46,24 @@ export default class WordSearch {
             height: null,
             wordArray: [],
         };
-        if (typeof searchString !== 'string') return null;
+        if (typeof searchString !== 'string') return false;
 
         //parse word line and validate
-        const inputLineSpliteArray = searchString.split('\n');
-        baseConfig.wordArray = inputLineSpliteArray[0] && inputLineSpliteArray[0].split(',') || [];
+        const inputLineSpliteArray = searchString.split(/\r\n|\n/);
 
+        baseConfig.wordArray = inputLineSpliteArray[0] && inputLineSpliteArray[0].split(',') || [];
         let containsSingleCharWord = false;
         baseConfig.wordArray.forEach((word) => {
             if (word.length < 2) {
                 containsSingleCharWord = true;
             }
         });
-        if (!baseConfig.wordArray.length || containsSingleCharWord) return null;
+        if (!baseConfig.wordArray.length || containsSingleCharWord) return false;
 
         //parse rest of searchGrid input
         baseConfig.wordGrid = inputLineSpliteArray.splice(1);
         baseConfig.height = baseConfig.wordGrid.length;
-        if (baseConfig.height === 0) return null;
+        if (baseConfig.height === 0) return false;
 
         let rowLengthDifferentThanHeight = false;
         baseConfig.wordGrid = baseConfig.wordGrid.map((gridString) => {
@@ -72,7 +71,7 @@ export default class WordSearch {
             if (splitRow.length !== baseConfig.height) rowLengthDifferentThanHeight = true;
             return splitRow;
         });
-        if (rowLengthDifferentThanHeight) return null;
+        if (rowLengthDifferentThanHeight) return false;
         baseConfig.width = baseConfig.wordGrid[0].length;
         return baseConfig
     }

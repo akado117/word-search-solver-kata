@@ -80,16 +80,16 @@ describe('WordSearch Class', () => {
     describe('parseWordSearchString', () => {
         const extraDesc = 'should return null';
         it(`${extraDesc} should the input be an incorrect data type`, () => {
-            expect(wordSearch.parseWordSearchString(12313)).toBe(null);
+            expect(wordSearch.parseWordSearchString(12313)).toBe(false);
         });
         it(`${extraDesc} if the first line contains any words with less than two letters`, () => {
-            expect(wordSearch.parseWordSearchString(',\na,b')).toBe(null);
-            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no,I')).toBe(null);
+            expect(wordSearch.parseWordSearchString(',\na,b')).toBe(false);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no,I')).toBe(false);
         });
         it(`${extraDesc} if there are any rows with a different length than grid height or there are no rows`, () => {
-            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no')).toBe(null);
-            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b')).toBe(null);
-            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b\nc,c,c')).toBe(null);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no')).toBe(false);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b,b')).toBe(false);
+            expect(wordSearch.parseWordSearchString('asd,dds,1337,uno,no\na,a,a\nb,b\nc,c,c')).toBe(false);
         });
         it('should return parsed input as an object with a word array and grid', () => {
             const result = {
