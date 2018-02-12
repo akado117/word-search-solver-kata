@@ -14,8 +14,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "buildCMD": "npx webpack --config webpack.config.js",
-    "wordSearchFromFile": "node ./src/js/commandLine/main.js searchFileForWords"
+    "buildCMD": "npx webpack --config webpack.cmd.config.js",
+    "wordSearchFromFile": "node ./src/js/commandLine/main.js searchFileForWords",
+    "initalOneLineRun": "npm install && npm run buildCMD && node ./src/js/commandLine/main.js searchFileForWords"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
